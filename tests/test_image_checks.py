@@ -56,3 +56,16 @@ def test_inspect_image_rejects_unsupported_format(image_format):
         match="Unsupported image format",
     ):
         inspect_image(contents)
+
+
+@pytest.mark.parametrize("size", [(10_000, 10_000), (15_000, 15_000)])
+def test_inspect_image_rejects_large_images(size):
+    image = Image.new("1", size)
+    buffer = BytesIO()
+    image.save(buffer, format="PNG")
+
+    with pytest.raises(
+        ValueError,
+        match="too large",
+    ):
+        inspect_image(buffer.getvalue())

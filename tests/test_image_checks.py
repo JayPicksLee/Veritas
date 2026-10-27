@@ -45,3 +45,22 @@ def test_inspect_image_rejects_invalid_bytes():
         match="not a valid readable image",
     ):
         inspect_image(b"this is not an image")
+
+def test_inspect_image_rejects_invalid_bytes():
+    with pytest.raises(
+        ValueError,
+        match="not a valid readable image",
+    ):
+        # Fake image
+        inspect_image(b"this is not an image")
+
+
+@pytest.mark.parametrize("image_format", ["BMP", "TIFF", "GIF"])
+def test_inspect_image_rejects_unsupported_format(image_format):
+    contents = make_image_bytes(image_format)
+
+    with pytest.raises(
+        ValueError,
+        match="Unsupported image format",
+    ):
+        inspect_image(contents)

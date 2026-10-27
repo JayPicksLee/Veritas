@@ -38,14 +38,6 @@ def test_inspect_image_supports_jpeg():
     assert result["width"] == 100
     assert result["height"] == 80
 
-
-def test_inspect_image_rejects_invalid_bytes():
-    with pytest.raises(
-        ValueError,
-        match="not a valid readable image",
-    ):
-        inspect_image(b"this is not an image")
-
 def test_inspect_image_rejects_invalid_bytes():
     with pytest.raises(
         ValueError,

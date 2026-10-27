@@ -98,3 +98,22 @@ def test_upload_rejects_invalid_image_contents():
     assert response.json()["detail"] == (
         "The file is not a valid readable image."
     )
+
+def test_upload_rejects_disguised_image_format():
+    image = Image.new("RGB", (100, 80), color="green")
+    buffer = BytesIO()
+    image.save(buffer, format="GIF")  # Save as GIF
+
+    response = client.post(
+        "/api/v1/analyses",
+        files={
+            "file": (
+                "disguised.png",
+                buffer.getvalue(),
+                "image/png",  # Disguised as PNG
+            )
+        },
+    )
+
+    assert response.status_code == 400
+    assert "Unsupported image format" in response.json()["detail"]

@@ -29,6 +29,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Upload } from "lucide-react";
+import { Dropzone } from "@/components/dropzone";
 
 const items = [
   {
@@ -58,51 +59,13 @@ export default function App() {
         <ModeToggle />
       </header>
 
-      <main className="flex-1 mx-auto w-full max-w-3xl px-4 flex flex-col gap-16">
-        <div className="flex-1 justify-center items-center flex flex-col ">
+      <main className="flex-1 mx-auto w-full max-w-3xl px-4 flex-col gap-16">
+        <div className="flex-1 justify-center items-center flex flex-col min-h-[50vh] gap-4">
           <h1 className="text-3xl font-bold mb-4">AI Detector</h1>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline">Upload</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Share link</DialogTitle>
-                <DialogDescription>
-                  Anyone who has this link will be able to view this.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="flex items-center gap-2">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="link" className="sr-only">
-                    Link
-                  </Label>
-                  <Field>
-                    <FieldLabel htmlFor="picture">Picture</FieldLabel>
-                    <Input id="picture" type="file" />
-                    <FieldDescription>
-                      Select a picture to upload.
-                    </FieldDescription>
-                  </Field>
-                </div>
-              </div>
-              <DialogFooter className="sm:justify-start">
-                <DialogClose asChild>
-                  <Button type="button">Close</Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
-          <Card className="min-w-[380px] w-full max-w-lg mt-8">
-            <CardHeader>
-              <Upload className="size-6 mb-2" />
-              <CardTitle>1. Upload</CardTitle>
-              <CardDescription>
-                Drop in the image you want to check.
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          <br></br>
+          <div className="hover:bg-muted/50 transition-all duration-300 rounded-lg max-w-lg w-full mx-auto">
+            <Dropzone />
+          </div>
         </div>
 
         <section className="justify-center items-center flex flex-col gap-4">
@@ -125,9 +88,7 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="w-full max-w-md mx-auto min-h-64">
-        
-      </footer>
+      
     </div>
   );
 }

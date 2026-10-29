@@ -14,11 +14,16 @@ ALLOWED_IMAGE_TYPES = {
     "image/jpeg",
     "image/png",
     "image/webp",
-}
+} 
+
+# Need to look into how to set this in a config file or environment variable
+
 
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+# Video implementation later will require a different max file size
 
 
+# Health check endpoint
 @app.get("/health")
 def health_check() -> dict:
     """Confirm that the API is running."""
@@ -28,7 +33,7 @@ def health_check() -> dict:
         "version": "0.1.0",
     }
 
-
+# Endpoint to handle image uploads and analysis
 @app.post("/api/v1/analyses")
 async def analyse_uploaded_image(file: UploadFile = File(...)) -> dict:
     """Validate and analyse an uploaded image."""
@@ -55,7 +60,8 @@ async def analyse_uploaded_image(file: UploadFile = File(...)) -> dict:
             status_code=413,
             detail="File is too large. Maximum size is 10 MB.",
         )
-
+    
+    # Analyze the image and handle any errors that occur during analysis
     try:
         analysis = analyse_image(contents)
     except ValueError as exc:

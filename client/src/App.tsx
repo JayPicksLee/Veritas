@@ -52,6 +52,7 @@ const items = [
   },
 ];
 
+
 export default function App() {
   return (
     <div className="p-8 min-h-screen flex flex-col">
@@ -63,7 +64,7 @@ export default function App() {
         <div className="flex-1 justify-center items-center flex flex-col min-h-[50vh] gap-4">
           <h1 className="text-3xl font-bold mb-4">AI Detector</h1>
           <br></br>
-          <div className="hover:bg-muted/50 transition-all duration-300 rounded-lg max-w-lg w-full mx-auto">
+          <div className=" rounded-lg max-w-lg w-full mx-auto">
             <Dropzone />
           </div>
         </div>

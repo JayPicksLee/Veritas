@@ -62,6 +62,15 @@ export function Dropzone() {
     e.target.value = "";
   }
 
+  function handleRemove(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
+    setFile(null);
+    setError(null);
+    if (inputRef.current) inputRef.current.value = "";
+  }
+
   return (
     <div className="mx-auto w-full max-w-xl space-y-4">
       <div
@@ -90,13 +99,13 @@ export function Dropzone() {
             <AttachmentContent>
               <AttachmentTitle>{file.name}</AttachmentTitle>
               <AttachmentDescription>
-                {/* e.g. the size in MB */}
+                file size is ${MAX_SIZE_MB}MB
               </AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
               <AttachmentAction
                 aria-label={`Remove ${file.name}`}
-                //onClick={handleRemove}
+                onClick={handleRemove}
               >
                 <XIcon />
               </AttachmentAction>

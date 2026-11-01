@@ -1,22 +1,13 @@
 from io import BytesIO
 
 import pytest
-
 from fastapi.testclient import TestClient
 from PIL import Image
-# Pillow is used to create test images for the tests
 
-from app.main import app
-from app.main import MAX_FILE_SIZE
+# Pillow is used to create test images for the tests
+from app.main import MAX_FILE_SIZE, app
 
 client = TestClient(app)
-
-
-def make_png_bytes() -> bytes:
-    image = Image.new("RGB", (100, 80), color="blue")
-    buffer = BytesIO()
-    image.save(buffer, format="PNG")
-    return buffer.getvalue()
 
 
 def test_health_check():
@@ -28,6 +19,7 @@ def test_health_check():
         "service": "veritas",
         "version": "0.1.0",
     }
+
 
 @pytest.mark.parametrize(
     "image_format, content_type, extension",
@@ -110,9 +102,8 @@ def test_upload_rejects_invalid_image_contents():
     )
 
     assert response.status_code == 400
-    assert response.json()["detail"] == (
-        "The file is not a valid readable image."
-    )
+    assert response.json()["detail"] == ("The file is not a valid readable image.")
+
 
 def test_upload_rejects_disguised_image_format():
     image = Image.new("RGB", (100, 80), color="green")
@@ -133,6 +124,7 @@ def test_upload_rejects_disguised_image_format():
     assert response.status_code == 400
     assert "Unsupported image format" in response.json()["detail"]
 
+
 def test_upload_rejects_large_file():
     # Create a large image that exceeds the MAX_FILE_SIZE
     contents = b"x" * (MAX_FILE_SIZE + 1)
@@ -149,6 +141,4 @@ def test_upload_rejects_large_file():
     )
 
     assert response.status_code == 413
-    assert response.json()["detail"] == (
-        "File is too large. Maximum size is 10 MB."
-    )
+    assert response.json()["detail"] == ("File is too large. Maximum size is 10 MB.")

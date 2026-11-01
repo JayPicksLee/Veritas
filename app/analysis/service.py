@@ -1,5 +1,6 @@
 from app.analysis.image_checks import inspect_image
 
+
 def analyse_image(contents: bytes) -> dict:
     image_info = inspect_image(contents)
 

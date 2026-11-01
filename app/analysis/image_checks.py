@@ -5,6 +5,7 @@ from PIL import Image, UnidentifiedImageError
 ALLOWED_FORMATS = {"PNG", "JPEG", "WEBP"}
 MAX_PIXELS = 50_000_000  # 50 million pixels, e.g., 10,000 x 5,000
 
+
 def inspect_image(contents: bytes) -> dict:
     try:
         with Image.open(BytesIO(contents)) as image:
@@ -30,8 +31,6 @@ def inspect_image(contents: bytes) -> dict:
     height = image_info["height"]
 
     if width * height > MAX_PIXELS:
-        raise ValueError(
-            f"Image dimensions are too large: {width}x{height} pixels."
-        )
-    
+        raise ValueError(f"Image dimensions are too large: {width}x{height} pixels.")
+
     return image_info

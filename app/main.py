@@ -1,7 +1,7 @@
 from pathlib import Path
 from uuid import uuid4
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException, UploadFile
 
 from app.analysis.service import analyse_image
 
@@ -14,7 +14,7 @@ ALLOWED_IMAGE_TYPES = {
     "image/jpeg",
     "image/png",
     "image/webp",
-} 
+}
 
 # Need to look into how to set this in a config file or environment variable
 
@@ -33,18 +33,16 @@ def health_check() -> dict:
         "version": "0.1.0",
     }
 
+
 # Endpoint to handle image uploads and analysis
 @app.post("/api/v1/analyses")
-async def analyse_uploaded_image(file: UploadFile = File(...)) -> dict:
+async def analyse_uploaded_image(file: UploadFile) -> dict:
     """Validate and analyse an uploaded image."""
 
     if file.content_type not in ALLOWED_IMAGE_TYPES:
         raise HTTPException(
             status_code=415,
-            detail=(
-                "Unsupported file type. "
-                "Upload a JPEG, PNG, or WebP image."
-            ),
+            detail=("Unsupported file type. Upload a JPEG, PNG, or WebP image."),
         )
 
     contents = await file.read()
@@ -60,7 +58,7 @@ async def analyse_uploaded_image(file: UploadFile = File(...)) -> dict:
             status_code=413,
             detail="File is too large. Maximum size is 10 MB.",
         )
-    
+
     # Analyze the image and handle any errors that occur during analysis
     try:
         analysis = analyse_image(contents)

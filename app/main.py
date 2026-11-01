@@ -2,12 +2,22 @@ from pathlib import Path
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.analysis.service import analyse_image
 
 app = FastAPI(
     title="Veritas API",
     version="0.1.0",
+)
+
+origin_list = ["http://localhost:5173"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origin_list,
+    allow_methods = ["*"],
+    allow_headers = ["*"]
 )
 
 ALLOWED_IMAGE_TYPES = {

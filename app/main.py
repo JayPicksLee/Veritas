@@ -14,10 +14,7 @@ app = FastAPI(
 origin_list = ["http://localhost:5173"]
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins = origin_list,
-    allow_methods = ["*"],
-    allow_headers = ["*"]
+    CORSMiddleware, allow_origins=origin_list, allow_methods=["*"], allow_headers=["*"]
 )
 
 ALLOWED_IMAGE_TYPES = {

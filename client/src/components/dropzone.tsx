@@ -12,6 +12,7 @@ import {
   AttachmentMedia,
   AttachmentTitle,
 } from "@/components/ui/attachment";
+import { formatFileSize } from "@/lib/format";
 
 
 export function Dropzone() {
@@ -99,7 +100,7 @@ export function Dropzone() {
             <AttachmentContent>
               <AttachmentTitle>{file.name}</AttachmentTitle>
               <AttachmentDescription>
-                file size is ${MAX_SIZE_MB}MB
+                File size: {formatFileSize(file.size)}
               </AttachmentDescription>
             </AttachmentContent>
             <AttachmentActions>
